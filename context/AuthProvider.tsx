@@ -6,7 +6,6 @@ import { createClient } from '@/utils/supabase/client';
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 
-// Initialize Supabase client
 const supabase = createClient(
 );
 
@@ -37,8 +36,6 @@ export const AuthProvider: React.FC<React.PropsWithChildren<{}>> = ({ children }
    const emailLogin = async (formData: FormData) => {
     const supabase = createClient()
   
-    // type-casting here for convenience
-    // in practice, you should validate your inputs
     const data = {
       email: formData.get('email') as string,
       password: formData.get('password') as string,
@@ -56,9 +53,6 @@ export const AuthProvider: React.FC<React.PropsWithChildren<{}>> = ({ children }
 
   const signUp = async (formData: FormData) => {
     const supabase = createClient()
-  
-    // type-casting here for convenience
-    // in practice, you should validate your inputs
     const data = {
       email: formData.get('email') as string,
       password: formData.get('password') as string,
@@ -95,7 +89,6 @@ export const AuthProvider: React.FC<React.PropsWithChildren<{}>> = ({ children }
   );
 };
 
-// Custom hook to use the AuthContext
 export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);
   if (context === undefined) {
