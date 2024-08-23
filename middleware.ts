@@ -21,14 +21,12 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  // Apply authentication check only to routes other than the homepage
   if (
     !user &&
     request.nextUrl.pathname !== '/' &&
     !request.nextUrl.pathname.startsWith('/login') &&
     !request.nextUrl.pathname.startsWith('/auth')
   ) {
-    // Redirect to login if not authenticated and accessing restricted route
     const url = request.nextUrl.clone()
     url.pathname = '/login'
     return NextResponse.redirect(url)

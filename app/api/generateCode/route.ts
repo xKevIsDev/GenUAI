@@ -15,15 +15,12 @@ export const runtime = "edge";
 export async function POST(req: Request) {
   let { messages, model, library } = await req.json();
 
-  // Log the received input from the request
   console.log("Received request body:", { messages, model, library });
 
-  // Dynamically import the documentation based on the library
   const docs = await getDocumentation(library);
 
   let systemPrompt = getSystemPrompt(library, docs);
 
-  // Log the generated system prompt
   console.log("Generated system prompt:", systemPrompt);
 
   const payload: TogetherAIStreamPayload = {
@@ -44,12 +41,10 @@ export async function POST(req: Request) {
     temperature: 0.8,
   };
 
-  // Log the payload being sent to TogetherAIStream
   console.log("TogetherAIStream payload:", payload);
 
   const stream = await TogetherAIStream(payload);
 
-  // Log the response stream from TogetherAIStream
   console.log("Response stream:", stream);
 
   return new Response(stream, {

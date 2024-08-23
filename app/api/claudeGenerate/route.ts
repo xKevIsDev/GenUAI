@@ -14,15 +14,12 @@ export const runtime = "edge";
 export async function POST(req: Request) {
   let { messages, model, library } = await req.json();
 
-  // Log the received input from the request
   console.log("Received request body:", { messages, model, library });
 
-  // Dynamically import the documentation based on the library
   const docs = await getDocumentation(library);
 
   let systemPrompt = getSystemPrompt(library, docs);
 
-  // Prepare payload for Claude API
   const payload = {
     model: model || 'claude-3-5-sonnet-20240620',
     system: systemPrompt,
@@ -39,8 +36,6 @@ export async function POST(req: Request) {
   };
 
     const stream = await ClaudeStream(payload);
-
-    // Log the response stream from ClaudeStream
     console.log("Response stream:", stream);
 
     return new Response(stream, {
@@ -111,7 +106,6 @@ function getSystemPrompt(library: string, docs: any) {
     NO OTHER LIBRARIES (e.g. zod, hookform) ARE INSTALLED OR ABLE TO BE IMPORTED.
   `;
 
-  // Log the final system prompt
   console.log("Final system prompt:", systemPrompt);
 
   return dedent(systemPrompt);

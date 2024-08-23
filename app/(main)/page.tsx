@@ -119,7 +119,6 @@ export default function Home() {
   async function generateCode(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    // Log form submission start
     console.log("Form submission started");
 
     if (status !== "initial") {
@@ -132,13 +131,12 @@ export default function Home() {
     console.log("Status set to 'creating' and generated code cleared");
 
     let formData = new FormData(e.currentTarget);
-    formData.append("model", modelValue || ""); // Using modelValue from state
-    formData.append("shadcn", String(!!uiValue)); // Using uiValue from state
+    formData.append("model", modelValue || "");
+    formData.append("shadcn", String(!!uiValue));
     let model = formData.get("model");
     let prompt = formData.get("prompt");
     let library = uiValue;
 
-    // Log the extracted form data
     console.log("Form Data:", { model, prompt, library });
 
     if (typeof prompt !== "string" || typeof model !== "string") {
@@ -147,7 +145,6 @@ export default function Home() {
     }
     let newMessages = [{ role: "user", content: prompt }];
 
-    // Log the messages that will be sent
     console.log("New Messages:", newMessages);
 
     try {
@@ -163,14 +160,12 @@ export default function Home() {
         }),
       });
 
-      // Log the response status
       console.log("API response status:", chatRes.status);
 
       if (!chatRes.ok) {
         throw new Error(chatRes.statusText);
       }
 
-      // Log the fact that we're dealing with a ReadableStream
       const data = chatRes.body;
       if (!data) {
         console.log("No data received in the response body");
@@ -201,7 +196,6 @@ export default function Home() {
         done = doneReading;
         const chunkValue = decoder.decode(value);
 
-        // Log the chunk being processed
         console.log("Processing chunk:", chunkValue);
 
         parser.feed(chunkValue);
@@ -212,7 +206,6 @@ export default function Home() {
         { role: "assistant", content: generatedCode },
       ];
 
-      // Log the final messages and status update
       console.log("Final Messages:", newMessages);
       setInitialAppConfig({ model, library });
       setMessages(newMessages);
@@ -220,7 +213,6 @@ export default function Home() {
       console.log("Status set to 'created'");
       
     } catch (error) {
-      // Log any errors caught during the fetch or processing
       console.error("Error during code generation:", error);
     }
   }
@@ -253,7 +245,6 @@ export default function Home() {
       throw new Error(chatRes.statusText);
     }
 
-    // This data is a ReadableStream
     const data = chatRes.body;
     if (!data) {
       return;
@@ -270,7 +261,6 @@ export default function Home() {
       }
     };
 
-    // https://web.dev/streams/#the-getreader-and-read-methods
     const reader = data.getReader();
     const decoder = new TextDecoder();
     const parser = createParser(onParse);
