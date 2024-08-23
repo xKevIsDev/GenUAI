@@ -27,7 +27,7 @@
 - [ ] Accounts.
     - [x] Auth.
     - [x] Database.
-    - [ ] Live Data
+    - [x] Live Data
     - [ ] User Usage.
     - [ ] Free Tier on signup.
     - [ ] Manage payment.
